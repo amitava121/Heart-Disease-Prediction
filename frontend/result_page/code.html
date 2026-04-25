@@ -1,0 +1,782 @@
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Clinical Ethereal | Heart Health Prediction</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#fe00fe",
+              "outline-variant": "#414754",
+              tertiary: "#d1bcff",
+              "primary-fixed-dim": "#98cbff",
+              secondary: "#ffabf3",
+              "surface-container-low": "#161b2b",
+              "on-surface": "#dee1f7",
+              "primary-container": "#0097ec",
+              "inverse-surface": "#dee1f7",
+              "tertiary-container": "#a178ff",
+              "on-tertiary-fixed": "#23005b",
+              "on-tertiary": "#3c0090",
+              "surface-dim": "#0e1322",
+              primary: "#98cbff",
+              "on-tertiary-container": "#34007f",
+              outline: "#8b90a0",
+              "surface-variant": "#2f3445",
+              "on-primary-fixed": "#001d33",
+              "surface-container-high": "#25293a",
+              "tertiary-fixed": "#e9ddff",
+              "surface-container-highest": "#2f3445",
+              error: "#ffb4ab",
+              "inverse-primary": "#00629d",
+              "on-surface-variant": "#c1c6d7",
+              "inverse-on-surface": "#2b3040",
+              "on-secondary": "#5b005b",
+              "error-container": "#93000a",
+              "on-background": "#dee1f7",
+              "on-primary": "#003354",
+              surface: "#0e1322",
+              "on-error": "#690005",
+              "secondary-fixed-dim": "#ffabf3",
+              background: "#0e1322",
+              "on-secondary-container": "#500050",
+              "surface-tint": "#98cbff",
+              "surface-bright": "#343949",
+              "secondary-fixed": "#ffd7f5",
+              "surface-container": "#1a1f2f",
+              "on-primary-fixed-variant": "#004a77",
+              "primary-fixed": "#cfe5ff",
+              "on-tertiary-fixed-variant": "#5700c9",
+              "on-secondary-fixed": "#380038",
+              "on-primary-container": "#002c4a",
+              "on-error-container": "#ffdad6",
+              "surface-container-lowest": "#090e1c",
+              "on-secondary-fixed-variant": "#810081",
+              "tertiary-fixed-dim": "#d1bcff",
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              lg: "1rem",
+              xl: "1.5rem",
+              full: "9999px",
+            },
+            fontFamily: {
+              headline: ["Manrope"],
+              body: ["Inter"],
+              label: ["Inter"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .glass-card {
+        background: rgba(47, 52, 69, 0.4);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+      .tonal-shift {
+        background: linear-gradient(to bottom, #161b2b, #0e1322);
+      }
+      .inner-glow-top {
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+      }
+      select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%238b90a0'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1.5em;
+      }
+      #result-modal {
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+      }
+      .text-glow-secondary {
+        text-shadow: 0 0 15px rgba(255, 171, 243, 0.5);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-surface text-on-surface font-body selection:bg-primary/30 antialiased overflow-hidden"
+  >
+    <main
+      class="fixed inset-0 z-[100] flex items-center justify-center px-4 md:px-8 py-10 bg-slate-950/80 backdrop-blur-3xl overflow-y-auto"
+    >
+      <div
+        class="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 w-full max-w-6xl rounded-3xl overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.8)] flex flex-col relative min-h-[85vh]"
+      >
+        <!-- Close Button -->
+        <button
+          data-html2canvas-ignore="true"
+          class="absolute top-4 right-4 z-[110] p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-all active:scale-90 group"
+          onclick="
+            window.parent.postMessage(
+              {
+                type: 'navigate',
+                page: 'prediction_dashboard',
+                preservePredictPayload: true,
+              },
+              '*',
+            )
+          "
+        >
+          <span
+            class="material-symbols-outlined text-on-surface group-hover:text-primary"
+            >close</span
+          >
+        </button>
+        <!-- Content Grid -->
+        <div id="export-content" class="flex flex-col md:flex-row flex-1">
+          <!-- Left Section: Visual Synthesis -->
+          <div
+            class="w-full md:w-7/12 p-4 md:p-6 flex flex-col relative overflow-hidden"
+          >
+            <!-- Decorative Glows -->
+            <div
+              class="absolute -top-24 -left-24 w-80 h-80 bg-primary/20 rounded-full blur-[120px]"
+            ></div>
+            <div
+              class="absolute -bottom-24 -right-24 w-80 h-80 bg-secondary/20 rounded-full blur-[120px]"
+            ></div>
+            <div class="relative z-10 space-y-4">
+              <div>
+                <span
+                  class="inline-block px-3 py-1 bg-tertiary-container/30 text-on-tertiary-container text-xs font-semibold rounded-full mb-4 uppercase tracking-widest backdrop-blur-md"
+                  >Predictive Analysis Alpha</span
+                >
+                <h2
+                  class="font-headline text-2xl lg:text-3xl font-extrabold tracking-tight text-on-surface"
+                >
+                  Diagnostic Synthesis
+                </h2>
+              </div>
+              <!-- Risk Visualization Area -->
+              <div class="flex justify-center -mt-4">
+                <!-- Glowing circular gauge -->
+                <div class="relative flex-shrink-0">
+                  <div class="relative w-48 h-48">
+                    <svg class="w-full h-full transform -rotate-90">
+                      <circle
+                        class="text-surface-container-highest"
+                        cx="96"
+                        cy="96"
+                        fill="transparent"
+                        r="80"
+                        stroke="currentColor"
+                        stroke-width="8"
+                      ></circle>
+                      <circle
+                        class="text-secondary drop-shadow-[0_0_12px_rgba(255,171,243,0.8)]"
+                        cx="96"
+                        cy="96"
+                        stroke="currentColor"
+                        fill="transparent"
+                        r="80"
+                        stroke-dasharray="503"
+                        stroke-linecap="round"
+                        stroke-dashoffset="{{STROKE_DASHOFFSET}}"
+                        stroke-width="12"
+                      ></circle>
+                      <!-- Percentage indicator dot on the ring -->
+                      <circle
+                        id="percentage-indicator"
+                        cx="176"
+                        cy="96"
+                        r="6"
+                        fill="rgb(255, 171, 243)"
+                        filter="url(#glow)"
+                      ></circle>
+                      <defs>
+                        <filter id="glow">
+                          <feGaussianBlur
+                            stdDeviation="2"
+                            result="coloredBlur"
+                          ></feGaussianBlur>
+                          <feMerge>
+                            <feMergeNode in="coloredBlur"></feMergeNode>
+                            <feMergeNode in="SourceGraphic"></feMergeNode>
+                          </feMerge>
+                        </filter>
+                      </defs>
+                    </svg>
+                    <div
+                      class="absolute inset-0 flex flex-col items-center justify-center text-center"
+                    >
+                      <span
+                        class="text-[10px] text-slate-400 uppercase tracking-widest"
+                        >Risk Score</span
+                      >
+                      <span
+                        class="text-4xl font-extrabold font-headline text-secondary text-glow-secondary"
+                        >{{PROBABILITY_TEXT}}</span
+                      >
+                      <span
+                        class="text-[10px] text-error font-medium mt-1 animate-pulse"
+                        >{{RISK_LEVEL_TEXT}}</span
+                      >
+                    </div>
+                  </div>
+                  <div class="mt-3 text-center">
+                    <span class="text-xs text-on-surface-variant font-medium"
+                      >{{PREDICTION_TEXT}}</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3D Data Boxes Grid -->
+              <div class="grid grid-cols-2 gap-3 pt-4">
+                <!-- Age Box -->
+                <div
+                  class="relative bg-gradient-to-br from-surface-container-highest to-surface-container rounded-xl p-4 border border-white/10 shadow-lg transform transition-all hover:scale-105 hover:border-primary/30"
+                >
+                  <div
+                    class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-xl"
+                  ></div>
+                  <div class="relative">
+                    <div class="flex items-center gap-2 mb-2">
+                      <span
+                        class="material-symbols-outlined text-primary text-lg"
+                        >person</span
+                      >
+                      <span
+                        class="text-xs text-slate-400 uppercase tracking-wider"
+                        >Age</span
+                      >
+                    </div>
+                    <span
+                      class="text-2xl font-bold font-headline text-on-surface"
+                      >{{AGE}}</span
+                    >
+                    <span class="text-xs text-slate-500 ml-1">years</span>
+                  </div>
+                </div>
+
+                <!-- Blood Pressure Box -->
+                <div
+                  class="relative bg-gradient-to-br from-surface-container-highest to-surface-container rounded-xl p-4 border border-white/10 shadow-lg transform transition-all hover:scale-105 hover:border-secondary/30"
+                >
+                  <div
+                    class="absolute inset-0 bg-gradient-to-br from-secondary/5 to-transparent rounded-xl"
+                  ></div>
+                  <div class="relative">
+                    <div class="flex items-center gap-2 mb-2">
+                      <span
+                        class="material-symbols-outlined text-secondary text-lg"
+                        >favorite</span
+                      >
+                      <span
+                        class="text-xs text-slate-400 uppercase tracking-wider"
+                        >BP</span
+                      >
+                    </div>
+                    <span
+                      class="text-2xl font-bold font-headline text-on-surface"
+                      >{{SYS_BP}}/{{DIA_BP}}</span
+                    >
+                    <span class="text-xs text-slate-500 ml-1">mmHg</span>
+                  </div>
+                </div>
+
+                <!-- BMI Box -->
+                <div
+                  class="relative bg-gradient-to-br from-surface-container-highest to-surface-container rounded-xl p-4 border border-white/10 shadow-lg transform transition-all hover:scale-105 hover:border-tertiary/30"
+                >
+                  <div
+                    class="absolute inset-0 bg-gradient-to-br from-tertiary/5 to-transparent rounded-xl"
+                  ></div>
+                  <div class="relative">
+                    <div class="flex items-center gap-2 mb-2">
+                      <span
+                        class="material-symbols-outlined text-tertiary text-lg"
+                        >monitor_weight</span
+                      >
+                      <span
+                        class="text-xs text-slate-400 uppercase tracking-wider"
+                        >BMI</span
+                      >
+                    </div>
+                    <span
+                      class="text-2xl font-bold font-headline text-on-surface"
+                      >{{BMI}}</span
+                    >
+                    <span class="text-xs text-slate-500 ml-1">kg/m²</span>
+                  </div>
+                </div>
+
+                <!-- Heart Rate Box -->
+                <div
+                  class="relative bg-gradient-to-br from-surface-container-highest to-surface-container rounded-xl p-4 border border-white/10 shadow-lg transform transition-all hover:scale-105 hover:border-error/30"
+                >
+                  <div
+                    class="absolute inset-0 bg-gradient-to-br from-error/5 to-transparent rounded-xl"
+                  ></div>
+                  <div class="relative">
+                    <div class="flex items-center gap-2 mb-2">
+                      <span class="material-symbols-outlined text-error text-lg"
+                        >monitor_heart</span
+                      >
+                      <span
+                        class="text-xs text-slate-400 uppercase tracking-wider"
+                        >Heart Rate</span
+                      >
+                    </div>
+                    <span
+                      class="text-2xl font-bold font-headline text-on-surface"
+                      >{{HEART_RATE}}</span
+                    >
+                    <span class="text-xs text-slate-500 ml-1">bpm</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Right Section: Clinical Directives -->
+          <div
+            class="w-full md:w-5/12 bg-black/30 p-4 md:p-6 border-l border-white/10 flex flex-col"
+          >
+            <h3
+              class="font-headline text-xl font-bold mb-6 flex items-center gap-3"
+            >
+              <span
+                class="material-symbols-outlined text-tertiary"
+                data-icon="verified_user"
+                >verified_user</span
+              >
+              Clinical Directives
+            </h3>
+            <ul class="space-y-4 flex-1">
+              <li class="flex gap-4 group">
+                <div
+                  class="flex-shrink-0 w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center border border-white/10 group-hover:border-tertiary transition-colors"
+                >
+                  <span class="text-tertiary font-bold font-headline">01</span>
+                </div>
+                <div>
+                  <p class="font-bold text-on-surface text-lg">
+                    {{DIRECTIVE_1_TITLE}}
+                  </p>
+                  <p
+                    class="text-sm text-on-surface-variant mt-1 leading-relaxed"
+                  >
+                    {{DIRECTIVE_1_DETAIL}}
+                  </p>
+                </div>
+              </li>
+              <li class="flex gap-4 group">
+                <div
+                  class="flex-shrink-0 w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center border border-white/10 group-hover:border-tertiary transition-colors"
+                >
+                  <span class="text-tertiary font-bold font-headline">02</span>
+                </div>
+                <div>
+                  <p class="font-bold text-on-surface text-lg">
+                    {{DIRECTIVE_2_TITLE}}
+                  </p>
+                  <p
+                    class="text-sm text-on-surface-variant mt-1 leading-relaxed"
+                  >
+                    {{DIRECTIVE_2_DETAIL}}
+                  </p>
+                </div>
+              </li>
+              <li class="flex gap-4 group">
+                <div
+                  class="flex-shrink-0 w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center border border-white/10 group-hover:border-tertiary transition-colors"
+                >
+                  <span class="text-tertiary font-bold font-headline">03</span>
+                </div>
+                <div>
+                  <p class="font-bold text-on-surface text-lg">
+                    {{DIRECTIVE_3_TITLE}}
+                  </p>
+                  <p
+                    class="text-sm text-on-surface-variant mt-1 leading-relaxed"
+                  >
+                    {{DIRECTIVE_3_DETAIL}}
+                  </p>
+                </div>
+              </li>
+            </ul>
+            <!-- Physician Note Section -->
+            <div
+              class="mt-6 p-4 bg-tertiary/5 rounded-2xl border border-tertiary/20 relative overflow-hidden"
+            >
+              <div class="absolute top-0 right-0 p-2 opacity-10">
+                <span
+                  class="material-symbols-outlined text-6xl"
+                  data-icon="format_quote"
+                  >format_quote</span
+                >
+              </div>
+              <p
+                class="text-xs text-tertiary font-bold uppercase tracking-[0.2em] mb-3"
+              >
+                Physician Note
+              </p>
+              <p class="text-sm text-on-surface italic leading-relaxed mb-6">
+                {{PHYSICIAN_NOTE}}
+              </p>
+              <div class="flex items-start gap-3 pt-1">
+                <span class="material-symbols-outlined text-tertiary text-lg"
+                  >auto_awesome</span
+                >
+                <div>
+                  <p class="text-sm font-bold text-on-surface">
+                    Generated by AI
+                  </p>
+                  <p class="text-[10px] text-slate-500 font-medium">
+                    Please consult a licensed doctor for diagnosis and
+                    treatment.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Bottom Action Bar -->
+        <div
+          class="px-6 py-3 bg-black/40 border-t border-white/10 flex flex-wrap gap-4 items-center justify-between"
+        >
+          <p class="text-xs text-on-surface-variant flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-sm"
+              >verified</span
+            >
+            Secure diagnostic output. HIPAA compliant.
+          </p>
+          <div class="flex gap-4" data-html2canvas-ignore="true">
+            <button
+              class="px-8 py-3 bg-surface-variant/40 border border-primary/20 text-primary font-bold rounded-xl backdrop-blur-md hover:bg-surface-variant/60 transition-all text-sm"
+            >
+              Share Internally
+            </button>
+            <button
+              id="export-btn"
+              onclick="exportToPDF()"
+              class="px-8 py-3 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold rounded-xl shadow-lg hover:brightness-110 transition-all flex items-center gap-2 text-sm"
+            >
+              <span class="material-symbols-outlined text-sm">download</span>
+              Export Report
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Hidden Printable Report Container -->
+    <!-- Hidden Printable Report Container -->
+    <div
+      id="pdf-report-container"
+      class="absolute top-0 left-0 w-[1122px] min-h-[793px] box-border bg-white text-slate-900 flex flex-col pt-6 pb-2 px-8 overflow-hidden pointer-events-none"
+      style="opacity: 0; z-index: -50"
+    >
+      <!-- Header -->
+      <div
+        class="flex justify-between items-end border-b-2 border-slate-200 pb-2 mb-3"
+      >
+        <div>
+          <h1 class="text-3xl font-serif font-bold text-slate-900">
+            Clinical Ethereal
+          </h1>
+          <p class="text-slate-500 tracking-widest text-[10px] uppercase mt-1">
+            Diagnostic Medical Report
+          </p>
+        </div>
+        <div class="text-right text-slate-500 text-[10px]">
+          <p class="font-semibold">HIPAA Compliant Output</p>
+          <p id="pdf-date"></p>
+        </div>
+      </div>
+
+      <!-- Top Section: Diagnosis & User Data -->
+      <div class="flex gap-4 mb-4 h-52">
+        <!-- Diagnosis Box -->
+        <div
+          class="w-1/3 bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col items-center justify-center text-center h-full"
+        >
+          <p
+            class="text-[10px] text-slate-500 uppercase tracking-widest font-semibold mb-1"
+          >
+            Patient Risk Score
+          </p>
+          <p class="text-5xl font-bold text-slate-900 mb-1">
+            {{PROBABILITY_TEXT}}
+          </p>
+          <p class="text-sm font-bold text-red-600 uppercase tracking-wide">
+            {{RISK_LEVEL_TEXT}}
+          </p>
+          <div class="w-8 h-1 bg-red-600 my-1 rounded-full"></div>
+          <p class="text-[10px] text-slate-700 font-medium">
+            {{PREDICTION_TEXT}}
+          </p>
+        </div>
+
+        <!-- User Data Box -->
+        <div
+          class="w-2/3 bg-white p-4 rounded-2xl border border-slate-200 h-full flex flex-col"
+        >
+          <p
+            class="text-sm text-slate-800 font-bold border-b border-slate-100 pb-2 mb-2 flex items-center gap-2 shrink-0"
+          >
+            <span class="material-symbols-outlined text-slate-400 text-base"
+              >monitor_heart</span
+            >
+            Patient Vitals & Clinical Inputs
+          </p>
+          <div class="text-slate-700 px-1 flex-1">{{PATIENT_DATA_GRID}}</div>
+        </div>
+      </div>
+
+      <!-- Directives Box -->
+      <div
+        class="bg-white p-4 rounded-2xl border border-slate-200 flex-1 flex flex-col overflow-hidden"
+      >
+        <p
+          class="text-sm text-slate-800 font-bold border-b border-slate-100 pb-2 mb-2 flex items-center gap-2 shrink-0"
+        >
+          <span class="material-symbols-outlined text-slate-400 text-base"
+            >verified_user</span
+          >
+          Clinical Directives & Recommendations
+        </p>
+
+        <div class="flex flex-col gap-3 pl-2 flex-1 mt-1">
+          <div class="flex gap-4 items-start mb-2">
+            <div
+              class="w-6 h-6 shrink-0 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 text-slate-600 font-bold text-[11px]"
+            >
+              1
+            </div>
+            <div>
+              <p class="font-bold text-slate-800 text-sm">
+                {{DIRECTIVE_1_TITLE}}
+              </p>
+              <p class="text-slate-600 mt-1 text-xs leading-snug">
+                {{DIRECTIVE_1_DETAIL}}
+              </p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start mb-2">
+            <div
+              class="w-6 h-6 shrink-0 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 text-slate-600 font-bold text-[11px]"
+            >
+              2
+            </div>
+            <div>
+              <p class="font-bold text-slate-800 text-sm">
+                {{DIRECTIVE_2_TITLE}}
+              </p>
+              <p class="text-slate-600 mt-1 text-xs leading-snug">
+                {{DIRECTIVE_2_DETAIL}}
+              </p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start mb-2">
+            <div
+              class="w-6 h-6 shrink-0 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 text-slate-600 font-bold text-[11px]"
+            >
+              3
+            </div>
+            <div>
+              <p class="font-bold text-slate-800 text-sm">
+                {{DIRECTIVE_3_TITLE}}
+              </p>
+              <p class="text-slate-600 mt-1 text-xs leading-snug">
+                {{DIRECTIVE_3_DETAIL}}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="mt-2 p-3 bg-slate-50 rounded-xl border border-slate-200 shrink-0"
+        >
+          <p
+            class="text-[10px] text-slate-500 uppercase tracking-widest font-semibold mb-1 flex items-center gap-1"
+          >
+            <span class="material-symbols-outlined text-[10px]"
+              >format_quote</span
+            >
+            Physician Note
+          </p>
+          <p class="text-[12px] text-slate-800 italic mb-2">
+            "{{PHYSICIAN_NOTE}}"
+          </p>
+
+          <div class="flex items-start gap-2 pt-2 border-t border-slate-200/60">
+            <span class="material-symbols-outlined text-[14px] text-slate-600"
+              >auto_awesome</span
+            >
+            <div>
+              <p class="font-bold text-[12px] text-slate-900">
+                Generated by AI
+              </p>
+              <p class="text-[9px] text-slate-500 font-medium">
+                Please consult a licensed doctor for diagnosis and treatment.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Solid loading overlay that hides everything during capture -->
+    <div
+      id="capture-overlay"
+      class="fixed inset-0 bg-slate-950 flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-150"
+      style="z-index: 999999"
+    >
+      <span
+        class="material-symbols-outlined text-4xl text-blue-400 animate-spin mb-4"
+        >progress_activity</span
+      >
+      <p class="text-slate-300 text-sm font-semibold tracking-widest uppercase">
+        Preparing Medical Report...
+      </p>
+    </div>
+
+    <script>
+      function exportToPDF() {
+        const btn = document.getElementById("export-btn");
+        const overlay = document.getElementById("capture-overlay");
+        const element = document.getElementById("pdf-report-container");
+        const mainUi = document.querySelector("main");
+
+        const originalText = btn.innerHTML;
+        btn.innerHTML =
+          '<span class="material-symbols-outlined text-sm animate-spin">downloading</span> Generating...';
+
+        console.log("----- START PDF GENERATION -----");
+        // Fill dates
+        document.getElementById("pdf-date").innerText =
+          new Date().toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
+        // 1. Show opaque full-screen loader to cover the screen
+        overlay.style.opacity = "1";
+        overlay.style.pointerEvents = "auto";
+
+        var opt = {
+          margin: 0,
+          filename: "Clinical_Ethereal_Report.pdf",
+          image: { type: "jpeg", quality: 1.0 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: "#ffffff",
+            logging: true, // Output html2canvas internal logs
+          },
+          jsPDF: { unit: "in", format: "a4", orientation: "landscape" },
+        };
+
+        // 2. Wait for loading overlay to transition in
+        setTimeout(() => {
+          // 3. To guarantee html2canvas renders the layout perfectly, we swap the DOM exactly
+          // as we did when it worked, but masked under the loading overlay!
+          mainUi.style.display = "none";
+          element.style.position = "relative";
+          element.style.opacity = "1";
+          element.style.zIndex = "10";
+
+          // 4. Force browser reflow to acknowledge the element visibility before snapshot
+          setTimeout(() => {
+            html2pdf()
+              .set(opt)
+              .from(element)
+              .save()
+              .then(() => {
+                console.log(
+                  "----- PDF GENERATION COMPLETED SUCCESSFULLY -----",
+                );
+                // Restore original state
+                element.style.opacity = "0";
+                element.style.position = "absolute";
+                element.style.zIndex = "-50";
+                mainUi.style.display = "";
+
+                overlay.style.opacity = "0";
+                overlay.style.pointerEvents = "none";
+                btn.innerHTML = originalText;
+              })
+              .catch((err) => {
+                console.error("----- PDF GENERATION FAILED -----");
+                console.error(err);
+                // Restore original state
+                element.style.opacity = "0";
+                element.style.position = "absolute";
+                element.style.zIndex = "-50";
+                mainUi.style.display = "";
+
+                overlay.style.opacity = "0";
+                overlay.style.pointerEvents = "none";
+                btn.innerHTML = originalText;
+              });
+          }, 150);
+        }, 200);
+      }
+
+      document.addEventListener("click", function (e) {
+        var el = e.target.closest("[data-nav]");
+        if (!el) return;
+        e.preventDefault();
+        window.parent.postMessage(
+          { type: "navigate", page: el.getAttribute("data-nav") },
+          "*",
+        );
+      });
+
+      // Set percentage indicator position based on stroke-dashoffset
+      document.addEventListener("DOMContentLoaded", function () {
+        var indicator = document.getElementById("percentage-indicator");
+        var circles = document.querySelectorAll("circle[stroke-dashoffset]");
+        var circle = null;
+        for (var i = 0; i < circles.length; i++) {
+          if (circles[i].getAttribute("stroke-dashoffset") !== "0") {
+            circle = circles[i];
+            break;
+          }
+        }
+        if (indicator && circle) {
+          var dashOffset = parseFloat(circle.getAttribute("stroke-dashoffset"));
+          var circumference = 503;
+          var percentage = (1 - dashOffset / circumference) * 100;
+          var centerX = 96;
+          var centerY = 96;
+          var radius = 80;
+          var angle = (percentage / 100) * 2 * Math.PI;
+          var x = centerX + radius * Math.cos(angle);
+          var y = centerY + radius * Math.sin(angle);
+          indicator.setAttribute("cx", x);
+          indicator.setAttribute("cy", y);
+        }
+      });
+    </script>
+  </body>
+</html>

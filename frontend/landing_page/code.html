@@ -1,0 +1,431 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Clinical Ethereal | Precision Heart Diagnostics</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#fe00fe",
+              "outline-variant": "#414754",
+              tertiary: "#d1bcff",
+              "primary-fixed-dim": "#98cbff",
+              secondary: "#ffabf3",
+              "surface-container-low": "#161b2b",
+              "on-surface": "#dee1f7",
+              "primary-container": "#0097ec",
+              "inverse-surface": "#dee1f7",
+              "tertiary-container": "#a178ff",
+              "on-tertiary-fixed": "#23005b",
+              "on-tertiary": "#3c0090",
+              "surface-dim": "#0e1322",
+              primary: "#98cbff",
+              "on-tertiary-container": "#34007f",
+              outline: "#8b90a0",
+              "surface-variant": "#2f3445",
+              "on-primary-fixed": "#001d33",
+              "surface-container-high": "#25293a",
+              "tertiary-fixed": "#e9ddff",
+              "surface-container-highest": "#2f3445",
+              error: "#ffb4ab",
+              "inverse-primary": "#00629d",
+              "on-surface-variant": "#c1c6d7",
+              "inverse-on-surface": "#2b3040",
+              "on-secondary": "#5b005b",
+              "error-container": "#93000a",
+              "on-background": "#dee1f7",
+              "on-primary": "#003354",
+              surface: "#0e1322",
+              "on-error": "#690005",
+              "secondary-fixed-dim": "#ffabf3",
+              background: "#0e1322",
+              "on-secondary-container": "#500050",
+              "surface-tint": "#98cbff",
+              "surface-bright": "#343949",
+              "secondary-fixed": "#ffd7f5",
+              "surface-container": "#1a1f2f",
+              "on-primary-fixed-variant": "#004a77",
+              "primary-fixed": "#cfe5ff",
+              "on-tertiary-fixed-variant": "#5700c9",
+              "on-secondary-fixed": "#380038",
+              "on-primary-container": "#002c4a",
+              "on-error-container": "#ffdad6",
+              "surface-container-lowest": "#090e1c",
+              "on-secondary-fixed-variant": "#810081",
+              "tertiary-fixed-dim": "#d1bcff",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "1rem",
+              xl: "1.5rem",
+              full: "9999px",
+            },
+            fontFamily: {
+              headline: ["Manrope"],
+              body: ["Inter"],
+              label: ["Inter"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background-color: #0e1322;
+        color: #dee1f7;
+      }
+      .glass-panel {
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(152, 203, 255, 0.1);
+      }
+      .hero-gradient {
+        background: radial-gradient(
+          circle at 50% 50%,
+          rgba(0, 151, 236, 0.15) 0%,
+          rgba(14, 19, 34, 0) 70%
+        );
+      }
+    </style>
+  </head>
+  <body class="font-body selection:bg-primary/30 antialiased">
+    <nav
+      class="fixed top-0 w-full z-50 bg-slate-900/40 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(14,19,34,0.37)] flex justify-between items-center px-8 h-20 max-w-full"
+    >
+      <div
+        class="text-2xl font-bold tracking-tighter text-blue-300 font-headline"
+      >
+        Clinical Ethereal
+      </div>
+      <div
+        class="hidden md:flex items-center space-x-8 font-headline tracking-tight font-semibold"
+      >
+        <a
+          class="text-blue-300 border-b-2 border-blue-400 pb-1"
+          href="#"
+          data-nav="landing_page"
+          >Home</a
+        >
+        <a
+          class="text-slate-400 hover:text-blue-200 transition-colors"
+          href="#"
+          data-nav="prediction_dashboard"
+          >Dashboard</a
+        >
+        <a
+          class="text-slate-400 hover:text-blue-200 transition-colors"
+          href="#"
+          data-nav="health_insights"
+          >Insights</a
+        >
+        <a
+          class="text-slate-400 hover:text-blue-200 transition-colors"
+          href="#"
+          data-nav="user_profile"
+          >Profile</a
+        >
+      </div>
+      <div class="flex items-center space-x-4">
+        <button
+          class="p-2 hover:bg-white/10 transition-all duration-300 rounded-full"
+        >
+          <span class="material-symbols-outlined text-blue-300"
+            >notifications</span
+          >
+        </button>
+        <button
+          class="p-2 hover:bg-white/10 transition-all duration-300 rounded-full"
+        >
+          <span class="material-symbols-outlined text-blue-300">settings</span>
+        </button>
+        <div
+          class="w-10 h-10 rounded-full overflow-hidden border border-primary/20"
+        >
+          <img
+            alt="User clinical profile"
+            data-alt="Close up portrait of a medical professional in soft clinical lighting with deep blue background"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKcQkd0RtnNYEb2Y1Lc4YMHR-m3WrBtq77rR--QfyNnYVVpDf_Rd5ZfntqVzQveET_soawLybCrCCRuLUclC8s7TnCQzyhygZeK3U7Ct5Rf_-fsplrhBejwl5_saMTjYjOZZFHmUi88u9Y4OfXKn-qBnohT88mKz0PRoIcWAmIs6tK3gdZtdnBBw3SZk9G5BA4UwJVmMSnTx-wVgbv9amfPj2TikzJyeaw37DIDJlKU6AYCm6ZC-hDpZjwaim2hbOpZQjDlmKseoHr"
+          />
+        </div>
+      </div>
+    </nav>
+    <main class="relative pt-20">
+      <section
+        class="relative min-h-[730px] flex items-center px-8 overflow-hidden"
+      >
+        <div class="absolute inset-0 hero-gradient -z-10"></div>
+        <div
+          class="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+        >
+          <div class="space-y-8 z-10">
+            <div
+              class="inline-flex items-center px-3 py-1 rounded-full bg-tertiary-container/20 text-tertiary text-xs font-semibold tracking-wider uppercase glass-panel"
+            >
+              <span class="mr-2">●</span> Next-Gen AI Diagnostics
+            </div>
+            <h1
+              class="text-5xl lg:text-7xl font-headline font-extrabold tracking-tighter leading-none text-on-surface"
+            >
+              The Pulse of <br /><span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary"
+                >Precision.</span
+              >
+            </h1>
+            <p
+              class="text-lg lg:text-xl text-on-surface-variant max-w-xl leading-relaxed"
+            >
+              Navigate the complexities of cardiovascular health with Clinical
+              Ethereal. Our neural engines process clinical data to predict
+              risks with unprecedented editorial clarity.
+            </p>
+            <div class="flex flex-wrap gap-4 pt-4">
+              <button
+                class="px-8 py-4 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold rounded-lg shadow-lg hover:shadow-primary/20 transition-all active:scale-95 duration-150"
+                data-nav="prediction_dashboard"
+              >
+                Begin Diagnosis
+              </button>
+              <button
+                class="px-8 py-4 glass-panel text-primary font-bold rounded-lg hover:bg-white/5 transition-all border border-primary/20 active:scale-95 duration-150"
+              >
+                Learn Methodology
+              </button>
+            </div>
+          </div>
+          <div class="relative group">
+            <div
+              class="absolute -inset-10 bg-secondary/10 blur-[120px] rounded-full group-hover:bg-secondary/20 transition-all duration-700"
+            ></div>
+            <div
+              class="relative glass-panel rounded-xl p-4 overflow-hidden aspect-square flex items-center justify-center"
+            >
+              <img
+                alt="3D Heart Visual"
+                class="w-full h-full object-contain mix-blend-lighten scale-110 drop-shadow-[0_0_30px_rgba(255,171,243,0.3)]"
+                data-alt="Hyper-realistic 3D anatomical heart rendered in frosted glass and glowing magenta neon light against a dark navy background"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwxncsE-WQxNNDf8aQ8poQ7IjbAukx-_ULf03WT5B6f_oXJ18lZQM-y6gxxHZzgCs2pg7u-M3nkL-RoE9FsVPCy8jF3Cs_0Sb2_XoOX4EZGaB6GYYnMByDGQjaXruwYGgZ-bLSt220idBhNsMxzE8yoze_9_vBA1FgrAKARsJFFVf5DrXSN0yFbF1NmdnQVSExJqdmWSHLIdj5x-Kl5DMmE6O-v6ceht5ZVw31GbjUerWtQfUR_WnDL7NQ7szb6y8-1uR1KBn35-cr"
+              />
+              <div
+                class="absolute bottom-8 left-8 right-8 grid grid-cols-2 gap-4"
+              >
+                <div class="glass-panel p-4 rounded-xl bg-surface-variant/40">
+                  <div
+                    class="text-xs text-primary font-semibold uppercase tracking-widest mb-1"
+                  >
+                    Risk Factor
+                  </div>
+                  <div class="text-2xl font-bold font-headline">0.04%</div>
+                </div>
+                <div class="glass-panel p-4 rounded-xl bg-surface-variant/40">
+                  <div
+                    class="text-xs text-secondary font-semibold uppercase tracking-widest mb-1"
+                  >
+                    Vitality
+                  </div>
+                  <div class="text-2xl font-bold font-headline">Optimal</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="py-24 px-8 bg-surface-container-low">
+        <div class="container mx-auto">
+          <div class="mb-16">
+            <h2 class="text-3xl font-headline font-bold text-on-surface mb-4">
+              How it Works
+            </h2>
+            <div
+              class="h-1 w-24 bg-gradient-to-r from-primary to-secondary rounded-full"
+            ></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div
+              class="p-8 rounded-xl bg-surface-container hover:bg-surface-bright transition-all duration-300 group"
+            >
+              <div
+                class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
+              >
+                <span class="material-symbols-outlined text-primary text-3xl"
+                  >biotech</span
+                >
+              </div>
+              <h3 class="text-xl font-headline font-bold mb-4">
+                Precision Intake
+              </h3>
+              <p class="text-on-surface-variant leading-relaxed">
+                Securely upload your clinical reports or connect wearable data
+                for real-time heart monitoring.
+              </p>
+            </div>
+            <div
+              class="p-8 rounded-xl bg-surface-container hover:bg-surface-bright transition-all duration-300 group"
+            >
+              <div
+                class="w-14 h-14 rounded-lg bg-secondary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
+              >
+                <span class="material-symbols-outlined text-secondary text-3xl"
+                  >psychology</span
+                >
+              </div>
+              <h3 class="text-xl font-headline font-bold mb-4">
+                Neural Analysis
+              </h3>
+              <p class="text-on-surface-variant leading-relaxed">
+                Our AI models cross-reference millions of data points to
+                identify subtle diagnostic patterns.
+              </p>
+            </div>
+            <div
+              class="p-8 rounded-xl bg-surface-container hover:bg-surface-bright transition-all duration-300 group"
+            >
+              <div
+                class="w-14 h-14 rounded-lg bg-tertiary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
+              >
+                <span class="material-symbols-outlined text-tertiary text-3xl"
+                  >insights</span
+                >
+              </div>
+              <h3 class="text-xl font-headline font-bold mb-4">
+                Actionable Clarity
+              </h3>
+              <p class="text-on-surface-variant leading-relaxed">
+                Receive a detailed editorial report with prioritized
+                recommendations for cardiovascular longevity.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="py-24 px-8 overflow-hidden">
+        <div class="container mx-auto">
+          <div
+            class="glass-panel p-12 rounded-xl flex flex-col md:flex-row items-center gap-12 relative overflow-hidden bg-slate-900/20"
+          >
+            <div
+              class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[80px] -mr-32 -mt-32"
+            ></div>
+            <div class="flex-1 space-y-6">
+              <h2 class="text-3xl font-headline font-bold text-on-surface">
+                Trust &amp; Security
+              </h2>
+              <p class="text-lg text-on-surface-variant">
+                We treat your health data as the sacred entity it is. Using
+                AES-256 clinical-grade encryption and anonymous data handling.
+              </p>
+              <ul class="space-y-4">
+                <li class="flex items-center space-x-3 text-primary">
+                  <span class="material-symbols-outlined">verified_user</span>
+                  <span class="font-semibold">HIPAA Compliant Protocols</span>
+                </li>
+                <li class="flex items-center space-x-3 text-primary">
+                  <span class="material-symbols-outlined">lock_reset</span>
+                  <span class="font-semibold"
+                    >End-to-End Encrypted Data Vault</span
+                  >
+                </li>
+                <li class="flex items-center space-x-3 text-primary">
+                  <span class="material-symbols-outlined">clinical_notes</span>
+                  <span class="font-semibold"
+                    >Physician-Reviewed Algorithms</span
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="flex-1 w-full max-w-md">
+              <div class="relative rounded-xl overflow-hidden shadow-2xl">
+                <img
+                  alt="Security Visualization"
+                  class="w-full aspect-video object-cover"
+                  data-alt="Abstract close-up of a digital server with glowing blue and green status lights representing high-security data processing"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFxnWbsVuJU-ig1JZ5PinjHBgDcPM9pvhDEG4o4yOXBmRjrHgRNppTsae7oa0vMAeIE-p2W8eD61mbSfpwYiuMJ2nPMS28w5HlLYe1FgXOLHAxSHlJ-UWAz_q9DLvjd2EB3YcbqmAQVBMM459ZMnHHF-Yvb35WZgbUfPt-stifr95cpPQ9d_AFCzNA_WtNcVsMSxUCRuuQcCqaEzlFT94HeDUHpIUnrTnWiXz7mfdCX2aPxR9Q1REdhPXGcixMHug3DF8uK_8-MvCo"
+                />
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"
+                ></div>
+                <div
+                  class="absolute bottom-4 left-4 flex items-center space-x-2"
+                >
+                  <div
+                    class="w-2 h-2 rounded-full bg-green-400 animate-pulse"
+                  ></div>
+                  <span
+                    class="text-xs font-bold tracking-widest text-on-surface"
+                    >SYSTEMS SECURE</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="py-24 px-8 bg-surface-container-highest/20">
+        <div class="container mx-auto text-center space-y-8">
+          <h2 class="text-4xl font-headline font-extrabold tracking-tight">
+            Ready to illuminate your
+            <span class="text-secondary">heart's future?</span>
+          </h2>
+          <p class="text-xl text-on-surface-variant max-w-2xl mx-auto">
+            Join thousands of proactive individuals using Clinical Ethereal for
+            precision-led longevity.
+          </p>
+          <div class="flex justify-center pt-8">
+            <button
+              class="px-12 py-5 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold rounded-lg shadow-xl hover:shadow-primary/30 transition-all hover:-translate-y-1"
+              data-nav="prediction_dashboard"
+            >
+              Get Started for Free
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer
+      class="bg-slate-950 w-full py-12 px-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center border-t border-white/5 inner-glow-top shadow-2xl shadow-blue-500/5 font-inter text-sm antialiased"
+    >
+      <div class="space-y-4">
+        <div class="text-lg font-bold text-blue-300 font-headline">
+          Clinical Ethereal
+        </div>
+        <p class="text-slate-500 max-w-sm">
+          © 2024 Clinical Ethereal. Precision Diagnostics. Providing
+          cutting-edge cardiovascular insights through artificial intelligence.
+        </p>
+      </div>
+      <div class="flex flex-col md:flex-row md:justify-end gap-6 md:gap-12">
+        <a
+          class="text-slate-500 hover:text-pink-300 transition-colors hover:translate-y-[-2px] transition-transform"
+          href="#"
+          >Privacy Policy</a
+        >
+        <a
+          class="text-slate-500 hover:text-pink-300 transition-colors hover:translate-y-[-2px] transition-transform"
+          href="#"
+          >Medical Disclaimer</a
+        >
+        <a
+          class="text-slate-500 hover:text-pink-300 transition-colors hover:translate-y-[-2px] transition-transform"
+          href="#"
+          >Contact Support</a
+        >
+      </div>
+    </footer>
+  </body>
+</html>

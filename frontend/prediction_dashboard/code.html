@@ -1,0 +1,688 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Clinical Ethereal | Heart Health Prediction</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#fe00fe",
+              "outline-variant": "#414754",
+              tertiary: "#d1bcff",
+              "primary-fixed-dim": "#98cbff",
+              secondary: "#ffabf3",
+              "surface-container-low": "#161b2b",
+              "on-surface": "#dee1f7",
+              "primary-container": "#0097ec",
+              "inverse-surface": "#dee1f7",
+              "tertiary-container": "#a178ff",
+              "on-tertiary-fixed": "#23005b",
+              "on-tertiary": "#3c0090",
+              "surface-dim": "#0e1322",
+              primary: "#98cbff",
+              "on-tertiary-container": "#34007f",
+              outline: "#8b90a0",
+              "surface-variant": "#2f3445",
+              "on-primary-fixed": "#001d33",
+              "surface-container-high": "#25293a",
+              "tertiary-fixed": "#e9ddff",
+              "surface-container-highest": "#2f3445",
+              error: "#ffb4ab",
+              "inverse-primary": "#00629d",
+              "on-surface-variant": "#c1c6d7",
+              "inverse-on-surface": "#2b3040",
+              "on-secondary": "#5b005b",
+              "error-container": "#93000a",
+              "on-background": "#dee1f7",
+              "on-primary": "#003354",
+              surface: "#0e1322",
+              "on-error": "#690005",
+              "secondary-fixed-dim": "#ffabf3",
+              background: "#0e1322",
+              "on-secondary-container": "#500050",
+              "surface-tint": "#98cbff",
+              "surface-bright": "#343949",
+              "secondary-fixed": "#ffd7f5",
+              "surface-container": "#1a1f2f",
+              "on-primary-fixed-variant": "#004a77",
+              "primary-fixed": "#cfe5ff",
+              "on-tertiary-fixed-variant": "#5700c9",
+              "on-secondary-fixed": "#380038",
+              "on-primary-container": "#002c4a",
+              "on-error-container": "#ffdad6",
+              "surface-container-lowest": "#090e1c",
+              "on-secondary-fixed-variant": "#810081",
+              "tertiary-fixed-dim": "#d1bcff",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "1rem",
+              xl: "1.5rem",
+              full: "9999px",
+            },
+            fontFamily: {
+              headline: ["Manrope"],
+              body: ["Inter"],
+              label: ["Inter"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .glass-card {
+        background: rgba(47, 52, 69, 0.4);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+      .tonal-shift {
+        background: linear-gradient(to bottom, #161b2b, #0e1322);
+      }
+      .inner-glow-top {
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+      }
+      select.binary-select {
+        color: #94a3b8;
+      }
+      select.binary-select:valid {
+        color: #dee1f7;
+      }
+      select.binary-select option {
+        color: #dee1f7;
+        background-color: #2f3445;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-surface text-on-surface font-body selection:bg-primary/30 antialiased"
+  >
+    <!-- Top Navigation Bar -->
+    <nav
+      class="fixed top-0 w-full z-50 bg-slate-900/40 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(14,19,34,0.37)] flex justify-between items-center px-8 h-20 max-w-full"
+    >
+      <div
+        class="text-2xl font-bold tracking-tighter text-blue-300 font-headline"
+      >
+        Clinical Ethereal
+      </div>
+      <div
+        class="hidden md:flex items-center space-x-8 font-headline tracking-tight font-semibold"
+      >
+        <a
+          class="text-slate-400 hover:text-blue-200 transition-colors"
+          href="#"
+          data-nav="landing_page"
+          >Home</a
+        >
+        <a
+          class="text-blue-300 border-b-2 border-blue-400 pb-1"
+          href="#"
+          data-nav="prediction_dashboard"
+          >Dashboard</a
+        >
+        <a
+          class="text-slate-400 hover:text-blue-200 transition-colors"
+          href="#"
+          data-nav="health_insights"
+          >Insights</a
+        >
+        <a
+          class="text-slate-400 hover:text-blue-200 transition-colors"
+          href="#"
+          data-nav="user_profile"
+          >Profile</a
+        >
+      </div>
+      <div class="flex items-center space-x-4">
+        <button
+          class="p-2 rounded-full hover:bg-white/10 transition-all duration-300 active:scale-95"
+        >
+          <span
+            class="material-symbols-outlined text-blue-300"
+            data-icon="notifications"
+            >notifications</span
+          >
+        </button>
+        <button
+          class="p-2 rounded-full hover:bg-white/10 transition-all duration-300 active:scale-95"
+        >
+          <span
+            class="material-symbols-outlined text-blue-300"
+            data-icon="settings"
+            >settings</span
+          >
+        </button>
+        <div
+          class="w-10 h-10 rounded-full bg-surface-container-highest border border-white/10 overflow-hidden"
+        >
+          <img
+            alt="User clinical profile"
+            class="w-full h-full object-cover"
+            data-alt="professional medical portrait of a doctor or clinician in clinical attire with soft blue laboratory lighting"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuChbAQn8RELMdbPV357BzCFXsaYxhX-53PbV1efnkmh0_P5KpCBJ0pFJd3IQSR2XF_p0b6kSrI9Zz7z6nEZ87kyoHJgDjz9CczO65v_wqUtQaCSHAHBdqrMoGlWPW_BevDhRiOVaNSZQr_clVhnf-DphaVimlKdutwI80sh0d-4QVyhXB8bDo-5dWgt0ArUgPJxwkMYuzz4XBnA665Md9pTIqTb_K5zJy9QNxHKwuu4gfzsaZZ4ev43XGJu6IJbjUvSoJ-UhPaNfOa0"
+          />
+        </div>
+      </div>
+    </nav>
+    <main class="pt-24 pb-12 px-6 max-w-7xl mx-auto">
+      <!-- Hero Section -->
+      <header class="mb-6">
+        <h1
+          class="font-headline text-4xl font-extrabold tracking-tighter text-on-surface mb-2"
+        >
+          Precision Diagnostics
+        </h1>
+        <p class="text-on-surface-variant max-w-2xl text-base leading-relaxed">
+          Utilize our proprietary neural architecture to analyze cardiovascular
+          health markers. High-fidelity results driven by advanced bio-metric
+          data modeling.
+        </p>
+      </header>
+      <!-- Main Grid Layout -->
+      <div class="grid grid-cols-1 gap-8">
+        <!-- Input Section (Left Column) -->
+        <div class="space-y-8">
+          <div
+            class="glass-card rounded-xl p-6 shadow-2xl border border-white/5"
+          >
+            <h2 class="font-headline text-xl font-bold mb-4 text-primary">
+              Patient Biometrics
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <!-- Age Input -->
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-400 mb-1 font-label"
+                  >Patient Age</label
+                >
+                <div class="relative">
+                  <input
+                    class="w-full bg-surface-container-highest border-0 focus:ring-2 focus:ring-primary/40 rounded-lg py-2.5 px-4 text-on-surface placeholder:text-slate-600 transition-all"
+                    data-field="age"
+                    placeholder="45"
+                    type="number"
+                  />
+                  <span
+                    class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-xs font-label"
+                    >YEARS</span
+                  >
+                </div>
+              </div>
+              <!-- Cholesterol Input -->
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-400 mb-1 font-label"
+                  >Total Cholesterol</label
+                >
+                <div class="relative">
+                  <input
+                    class="w-full bg-surface-container-highest border-0 focus:ring-2 focus:ring-primary/40 rounded-lg py-2.5 px-4 text-on-surface placeholder:text-slate-600 transition-all"
+                    data-field="totChol"
+                    placeholder="180"
+                    type="number"
+                  />
+                  <span
+                    class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-xs font-label"
+                    >mg/dL</span
+                  >
+                </div>
+              </div>
+              <!-- Blood Pressure Input -->
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-400 mb-1 font-label"
+                  >Systolic Blood Pressure</label
+                >
+                <div class="relative">
+                  <input
+                    class="w-full bg-surface-container-highest border-0 focus:ring-2 focus:ring-primary/40 rounded-lg py-2.5 px-4 text-on-surface placeholder:text-slate-600 transition-all"
+                    data-field="sysBP"
+                    placeholder="120"
+                    type="number"
+                  />
+                  <span
+                    class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-xs font-label"
+                    >mmHg</span
+                  >
+                </div>
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-400 mb-2 font-label"
+                  >Sex</label
+                >
+                <select
+                  class="binary-select w-full bg-surface-container-highest border-0 focus:ring-2 focus:ring-primary/40 rounded-lg py-3 px-4 text-on-surface placeholder:text-slate-600 transition-all"
+                  data-field="male"
+                  required
+                >
+                  <option value="" selected disabled>
+                    Select Male or Female
+                  </option>
+                  <option value="0">Female</option>
+                  <option value="1">Male</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-400 mb-2 font-label"
+                  >Current Smoker</label
+                >
+                <select
+                  class="binary-select w-full bg-surface-container-highest border-0 focus:ring-2 focus:ring-primary/40 rounded-lg py-3 px-4 text-on-surface placeholder:text-slate-600 transition-all"
+                  data-field="currentSmoker"
+                  required
+                >
+                  <option value="" selected disabled>Select Yes or No</option>
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-400 mb-2 font-label"
+                  >Cigarettes / Day</label
+                >
+                <input
+                  class="w-full bg-surface-container-highest border-0 focus:ring-2 focus:ring-primary/40 rounded-lg py-3 px-4 text-on-surface placeholder:text-slate-600 transition-all"
+                  data-field="cigsPerDay"
+                  placeholder="0"
+                  type="number"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-400 mb-2 font-label"
+                  >BP Medication</label
+                >
+                <select
+                  class="binary-select w-full bg-surface-container-highest border-0 focus:ring-2 focus:ring-primary/40 rounded-lg py-3 px-4 text-on-surface placeholder:text-slate-600 transition-all"
+                  data-field="BPMeds"
+                  required
+                >
+                  <option value="" selected disabled>Select Yes or No</option>
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-400 mb-2 font-label"
+                  >Prevalent Stroke</label
+                >
+                <select
+                  class="binary-select w-full bg-surface-container-highest border-0 focus:ring-2 focus:ring-primary/40 rounded-lg py-3 px-4 text-on-surface placeholder:text-slate-600 transition-all"
+                  data-field="prevalentStroke"
+                  required
+                >
+                  <option value="" selected disabled>Select Yes or No</option>
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-400 mb-2 font-label"
+                  >Prevalent Hypertension</label
+                >
+                <select
+                  class="binary-select w-full bg-surface-container-highest border-0 focus:ring-2 focus:ring-primary/40 rounded-lg py-3 px-4 text-on-surface placeholder:text-slate-600 transition-all"
+                  data-field="prevalentHyp"
+                  required
+                >
+                  <option value="" selected disabled>Select Yes or No</option>
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-400 mb-2 font-label"
+                  >Diabetes</label
+                >
+                <select
+                  class="binary-select w-full bg-surface-container-highest border-0 focus:ring-2 focus:ring-primary/40 rounded-lg py-3 px-4 text-on-surface placeholder:text-slate-600 transition-all"
+                  data-field="diabetes"
+                  required
+                >
+                  <option value="" selected disabled>Select Yes or No</option>
+                  <option value="0">No</option>
+                  <option value="1">Yes</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-400 mb-2 font-label"
+                  >Diastolic Blood Pressure</label
+                >
+                <input
+                  class="w-full bg-surface-container-highest border-0 focus:ring-2 focus:ring-primary/40 rounded-lg py-3 px-4 text-on-surface placeholder:text-slate-600 transition-all"
+                  data-field="diaBP"
+                  placeholder="80"
+                  type="number"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-400 mb-2 font-label"
+                  >BMI</label
+                >
+                <input
+                  class="w-full bg-surface-container-highest border-0 focus:ring-2 focus:ring-primary/40 rounded-lg py-3 px-4 text-on-surface placeholder:text-slate-600 transition-all"
+                  data-field="BMI"
+                  placeholder="25"
+                  type="number"
+                  step="0.1"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-400 mb-2 font-label"
+                  >Heart Rate</label
+                >
+                <input
+                  class="w-full bg-surface-container-highest border-0 focus:ring-2 focus:ring-primary/40 rounded-lg py-3 px-4 text-on-surface placeholder:text-slate-600 transition-all"
+                  data-field="heartRate"
+                  placeholder="72"
+                  type="number"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-slate-400 mb-2 font-label"
+                  >Glucose</label
+                >
+                <input
+                  class="w-full bg-surface-container-highest border-0 focus:ring-2 focus:ring-primary/40 rounded-lg py-3 px-4 text-on-surface placeholder:text-slate-600 transition-all"
+                  data-field="glucose"
+                  placeholder="90"
+                  type="number"
+                />
+              </div>
+              <div class="pt-4 md:col-span-3">
+                <button
+                  data-action="run-analysis"
+                  class="w-full h-12 bg-gradient-to-br from-primary to-primary-container text-on-primary font-headline font-bold rounded-lg shadow-[0_0_40px_-10px_rgba(0,151,236,0.5)] hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center gap-3"
+                >
+                  <span
+                    class="material-symbols-outlined"
+                    data-icon="analytics"
+                    style="font-variation-settings: &quot;FILL&quot; 1"
+                    >analytics</span
+                  >
+                  Run Diagnostic Analysis
+                </button>
+                <p
+                  data-validation-message
+                  class="hidden mt-3 text-sm font-label text-error"
+                ></p>
+              </div>
+            </div>
+          </div>
+          <!-- How It Works Section -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Box 1 -->
+            <div
+              class="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-6 border border-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02] group"
+            >
+              <div
+                class="bg-primary/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"
+              >
+                <span
+                  class="material-symbols-outlined text-primary"
+                  data-icon="upload"
+                  >upload</span
+                >
+              </div>
+              <h3 class="font-headline font-bold text-on-surface mb-2">
+                Input Data
+              </h3>
+              <p class="text-sm text-on-surface-variant font-label">
+                Enter patient biometrics including age, cholesterol, blood
+                pressure, and lifestyle factors.
+              </p>
+            </div>
+            <!-- Box 2 -->
+            <div
+              class="bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-xl p-6 border border-secondary/20 hover:border-secondary/40 transition-all hover:scale-[1.02] group"
+            >
+              <div
+                class="bg-secondary/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"
+              >
+                <span
+                  class="material-symbols-outlined text-secondary"
+                  data-icon="psychology"
+                  >psychology</span
+                >
+              </div>
+              <h3 class="font-headline font-bold text-on-surface mb-2">
+                AI Analysis
+              </h3>
+              <p class="text-sm text-on-surface-variant font-label">
+                Our trained neural network analyzes 14 clinical markers to
+                predict 10-year cardiovascular risk.
+              </p>
+            </div>
+            <!-- Box 3 -->
+            <div
+              class="bg-gradient-to-br from-tertiary/10 to-tertiary/5 rounded-xl p-6 border border-tertiary/20 hover:border-tertiary/40 transition-all hover:scale-[1.02] group"
+            >
+              <div
+                class="bg-tertiary/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"
+              >
+                <span
+                  class="material-symbols-outlined text-tertiary"
+                  data-icon="assessment"
+                  >assessment</span
+                >
+              </div>
+              <h3 class="font-headline font-bold text-on-surface mb-2">
+                Get Results
+              </h3>
+              <p class="text-sm text-on-surface-variant font-label">
+                Receive instant risk assessment with personalized clinical
+                directives and recommendations.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Footer -->
+    <footer
+      class="bg-slate-950 w-full py-12 px-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center border-t border-white/5 inner-glow-top shadow-2xl shadow-blue-500/5"
+    >
+      <div class="space-y-4">
+        <div class="text-lg font-bold text-blue-300 font-headline">
+          Clinical Ethereal
+        </div>
+        <p class="text-slate-500 font-inter text-sm antialiased">
+          © 2024 Clinical Ethereal. Precision Diagnostics.
+        </p>
+      </div>
+      <div
+        class="flex flex-wrap gap-x-8 gap-y-4 md:justify-end font-inter text-sm antialiased"
+      >
+        <a
+          class="text-slate-500 hover:text-pink-300 transition-colors hover:translate-y-[-2px] transition-transform"
+          href="#"
+          >Privacy Policy</a
+        >
+        <a
+          class="text-slate-500 hover:text-pink-300 transition-colors hover:translate-y-[-2px] transition-transform"
+          href="#"
+          >Medical Disclaimer</a
+        >
+        <a
+          class="text-slate-500 hover:text-pink-300 transition-colors hover:translate-y-[-2px] transition-transform"
+          href="#"
+          >Contact Support</a
+        >
+      </div>
+    </footer>
+    <script>
+      (function () {
+        function safeSet(key, value) {
+          try {
+            localStorage.setItem(key, value);
+          } catch (_) {}
+        }
+
+        function safeGet(key) {
+          try {
+            return localStorage.getItem(key);
+          } catch (_) {
+            return null;
+          }
+        }
+
+        function safeRemove(key) {
+          try {
+            localStorage.removeItem(key);
+          } catch (_) {}
+        }
+
+        // Save form data to localStorage
+        function saveFormData() {
+          const fields = document.querySelectorAll("[data-field]");
+          const data = {};
+          fields.forEach((field) => {
+            data[field.dataset.field] = field.value;
+          });
+          safeSet("dashboardFormData", JSON.stringify(data));
+          safeSet("dashboardFormSaved", "true");
+        }
+
+        // Load form data from localStorage
+        function loadFormData() {
+          const saved = safeGet("dashboardFormData");
+          if (!saved) return;
+          const data = JSON.parse(saved);
+          Object.keys(data).forEach((key) => {
+            const field = document.querySelector(`[data-field="${key}"]`);
+            if (field) field.value = data[key];
+          });
+          safeRemove("dashboardFormSaved");
+        }
+
+        // Clear form data
+        function clearFormData() {
+          const fields = document.querySelectorAll("[data-field]");
+          fields.forEach((field) => (field.value = ""));
+          safeRemove("dashboardFormData");
+          safeRemove("dashboardFormSaved");
+        }
+
+        // Always try to restore form data if it exists
+        loadFormData();
+
+        function syncCigsPerDayDependency() {
+          const smokerField = document.querySelector(
+            '[data-field="currentSmoker"]',
+          );
+          const cigsField = document.querySelector('[data-field="cigsPerDay"]');
+          if (!smokerField || !cigsField) return;
+
+          const isNonSmoker = String(smokerField.value || "").trim() === "0";
+          cigsField.disabled = isNonSmoker;
+          cigsField.classList.toggle("opacity-60", isNonSmoker);
+          cigsField.classList.toggle("cursor-not-allowed", isNonSmoker);
+
+          if (isNonSmoker) {
+            cigsField.value = "0";
+          }
+        }
+
+        const smokerField = document.querySelector(
+          '[data-field="currentSmoker"]',
+        );
+        if (smokerField) {
+          smokerField.addEventListener("change", syncCigsPerDayDependency);
+        }
+        syncCigsPerDayDependency();
+
+        // Handle messages from parent (e.g., restoreForm from result page)
+        window.addEventListener("message", function (e) {
+          if (e.data && e.data.restoreForm) {
+            loadFormData();
+            syncCigsPerDayDependency();
+          }
+        });
+
+        // Handle navigation clicks
+        document.addEventListener("click", function (e) {
+          const navEl = e.target.closest("[data-nav]");
+          if (!navEl) return;
+          e.preventDefault();
+
+          const targetPage = navEl.dataset.nav;
+
+          // If going to result page, save form data
+          if (targetPage === "result_page") {
+            saveFormData();
+          }
+          // If going to other pages, clear form data
+          else if (targetPage !== "prediction_dashboard") {
+            clearFormData();
+          }
+
+          // Navigate
+          window.parent.postMessage(
+            { type: "navigate", page: targetPage },
+            "*",
+          );
+        });
+
+        // Handle run analysis button
+        const runBtn = document.querySelector('[data-action="run-analysis"]');
+        if (runBtn) {
+          runBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            const fields = document.querySelectorAll("[data-field]");
+            const data = {};
+            let valid = true;
+            fields.forEach((field) => {
+              if (!field.value) valid = false;
+              data[field.dataset.field] = field.value;
+            });
+            if (!valid) {
+              const msg = document.querySelector("[data-validation-message]");
+              if (msg) {
+                msg.textContent = "Please fill in all fields";
+                msg.classList.remove("hidden");
+              }
+              return;
+            }
+            saveFormData();
+            window.parent.postMessage({ type: "predict", payload: data }, "*");
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
