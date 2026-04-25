@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Clinical Ethereal | Heart Health Prediction</title>
+    <title>Clinical Ethereal | 10-Year CHD Risk (TenYearCHD)</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
@@ -115,6 +115,36 @@
       }
       .text-glow-secondary {
         text-shadow: 0 0 15px rgba(255, 171, 243, 0.5);
+      }
+      @keyframes scopeGradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 100% 50%;
+        }
+      }
+      .scope-highlight {
+        border: 1px solid rgba(152, 203, 255, 0.35);
+        background: linear-gradient(
+          120deg,
+          rgba(152, 203, 255, 0.18),
+          rgba(209, 188, 255, 0.18),
+          rgba(255, 171, 243, 0.16)
+        );
+        background-size: 200% 200%;
+        animation: scopeGradientShift 4s linear infinite alternate;
+      }
+      .scope-highlight-pdf {
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        background: linear-gradient(
+          120deg,
+          rgba(191, 219, 254, 0.35),
+          rgba(221, 214, 254, 0.35),
+          rgba(249, 168, 212, 0.28)
+        );
+        background-size: 200% 200%;
+        animation: scopeGradientShift 4s linear infinite alternate;
       }
     </style>
   </head>
@@ -351,6 +381,26 @@
                   </div>
                 </div>
               </div>
+
+              <div
+                class="scope-highlight mt-4 px-4 py-3 rounded-xl max-w-2xl border border-primary/30"
+              >
+                <p class="text-xs text-on-surface leading-relaxed font-medium">
+                  <strong class="font-extrabold"
+                    >Model Scope Disclaimer:</strong
+                  >
+                  This ML system predicts
+                  <strong class="font-extrabold">only</strong> 10-year coronary
+                  heart disease risk (<strong class="font-extrabold"
+                    >TenYearCHD</strong
+                  >).
+                  <strong class="font-extrabold"
+                    >It does not diagnose all heart diseases.</strong
+                  >
+                  Please use this as supportive risk screening and consult a
+                  licensed clinician for diagnosis.
+                </p>
+              </div>
             </div>
           </div>
           <!-- Right Section: Clinical Directives -->
@@ -464,7 +514,8 @@
             <span class="material-symbols-outlined text-primary text-sm"
               >verified</span
             >
-            Secure diagnostic output. HIPAA compliant.
+            Model scope: 10-year CHD risk (TenYearCHD) only. Not all heart
+            diseases.
           </p>
           <div class="flex gap-4" data-html2canvas-ignore="true">
             <button
@@ -530,6 +581,13 @@
           <div class="w-8 h-1 bg-red-600 my-1 rounded-full"></div>
           <p class="text-[10px] text-slate-700 font-medium">
             {{PREDICTION_TEXT}}
+          </p>
+          <p
+            class="scope-highlight-pdf text-[9px] text-slate-700 mt-2 leading-tight max-w-[230px] px-2 py-1 rounded-md font-medium"
+          >
+            <strong>Model Scope:</strong> Predicts <strong>only</strong> 10-year
+            CHD risk (<strong>TenYearCHD</strong>), <strong>not</strong> all
+            heart diseases.
           </p>
         </div>
 

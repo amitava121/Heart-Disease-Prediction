@@ -86,15 +86,16 @@ The notebook is considered successful when:
 2. Go to Streamlit Community Cloud and create a new app.
 3. Select this repository and set main file path to `streamlit_app.py`.
 4. Set these app settings:
-	- **Python version**: from `runtime.txt` (`python-3.11`)
-	- **Main file path**: `streamlit_app.py`
+   - **Python version**: from `runtime.txt` (`python-3.11`)
+   - **Main file path**: `streamlit_app.py`
 5. In **App Settings → Secrets**, add:
 
-	```toml
-	GEMINI_API_KEY = "your_gemini_api_key_here"
-	```
+   ```toml
+   GEMINI_API_KEY = "your_gemini_api_key_here"
+   ```
 
-	(You can use `.streamlit/secrets.toml.example` as template.)
+   (You can use `.streamlit/secrets.toml.example` as template.)
+
 6. Deploy. The app will install from `requirements.txt` automatically.
 
 The repository includes Streamlit runtime defaults in `.streamlit/config.toml`.
