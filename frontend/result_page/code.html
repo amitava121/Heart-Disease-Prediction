@@ -152,10 +152,10 @@
     class="bg-surface text-on-surface font-body selection:bg-primary/30 antialiased overflow-hidden"
   >
     <main
-      class="fixed inset-0 z-[100] flex items-center justify-center px-4 md:px-8 py-10 bg-slate-950/80 backdrop-blur-3xl overflow-y-auto"
+      class="fixed inset-0 z-[100] flex items-start md:items-center justify-center px-3 md:px-8 py-4 md:py-10 bg-slate-950/80 backdrop-blur-3xl overflow-y-auto"
     >
       <div
-        class="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 w-full max-w-6xl rounded-3xl overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.8)] flex flex-col relative min-h-[85vh]"
+        class="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 w-full max-w-6xl rounded-2xl md:rounded-3xl overflow-visible md:overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.8)] flex flex-col relative min-h-[100svh] md:min-h-[85vh]"
       >
         <!-- Close Button -->
         <button
@@ -181,7 +181,7 @@
         <div id="export-content" class="flex flex-col md:flex-row flex-1">
           <!-- Left Section: Visual Synthesis -->
           <div
-            class="w-full md:w-7/12 p-4 md:p-6 flex flex-col relative overflow-hidden"
+            class="w-full md:w-7/12 p-4 md:p-6 flex flex-col relative overflow-visible md:overflow-hidden"
           >
             <!-- Decorative Glows -->
             <div
@@ -405,7 +405,7 @@
           </div>
           <!-- Right Section: Clinical Directives -->
           <div
-            class="w-full md:w-5/12 bg-black/30 p-4 md:p-6 border-l border-white/10 flex flex-col"
+            class="w-full md:w-5/12 bg-black/30 p-4 md:p-6 border-t md:border-t-0 md:border-l border-white/10 flex flex-col"
           >
             <h3
               class="font-headline text-xl font-bold mb-6 flex items-center gap-3"
